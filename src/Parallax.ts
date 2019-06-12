@@ -12,7 +12,7 @@ class Parallax implements Plugin {
    * @example
    * flicking.addPlugins(new eg.Flicking.plugins.Parallax("img", 1));
    */
-  constructor(private selector: string = "", private scale: number = 1) {}
+  constructor(private selector: string = "", private scale: number = 1) { }
   public init(flicking: Flicking): void {
     flicking.on("move", this.onMove);
     this.move(flicking);
@@ -32,7 +32,11 @@ class Parallax implements Plugin {
     panels.forEach(panel => {
       const progress = panel.getOutsetProgress();
       const el = panel.getElement();
-      const target = el.querySelector<HTMLElement>(this.selector)!;
+      const target = el.querySelector<HTMLElement>(this.selector);
+
+      if (!target) {
+        return;
+      }
       const parentTarget = target.parentNode as Element;
       const rect = target.getBoundingClientRect();
       const parentRect = parentTarget.getBoundingClientRect();

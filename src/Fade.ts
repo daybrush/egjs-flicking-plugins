@@ -12,7 +12,7 @@ class Fade implements Plugin {
    * @example
    * flicking.addPlugins(new eg.Flicking.plugins.Fade("p", 1));
    */
-  constructor(private selector: string = "", private scale: number = 1) {}
+  constructor(private selector: string = "", private scale: number = 1) { }
   public init(flicking: Flicking): void {
     flicking.on("move", this.onMove);
     this.move(flicking);
@@ -35,6 +35,10 @@ class Fade implements Plugin {
       const progress = panel.getOutsetProgress();
       const el = panel.getElement();
       const target = selector ? el.querySelector<HTMLElement>(selector)! : el;
+
+      if (!target) {
+        return;
+      }
       const opacity = Math.min(1, Math.max(0, (1 - Math.abs(progress * scale))));
 
       target.style.opacity = `${opacity}`;
